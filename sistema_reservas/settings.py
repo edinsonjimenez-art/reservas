@@ -53,23 +53,50 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_reservas.wsgi.application'
 
-DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('MYSQL_URL')
+# =========================
+# BASE DE DATOS (FIX RAILWAY)
+# =========================
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'bd_reservas',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '3306',
+    # Railway MySQL variables
+    DB_NAME = os.environ.get('MYSQLDATABASE')
+    DB_USER = os.environ.get('MYSQLUSER')
+    DB_PASSWORD = os.environ.get('MYSQLPASSWORD')
+    DB_HOST = os.environ.get('MYSQLHOST')
+    DB_PORT = os.environ.get('MYSQLPORT')
+
+    if DB_NAME and DB_HOST:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': DB_NAME,
+                'USER': DB_USER,
+                'PASSWORD': DB_PASSWORD,
+                'HOST': DB_HOST,   # 🔥 IMPORTANTE: ya no localhost
+                'PORT': DB_PORT or '3306',
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+                }
+            }
         }
-    }
+    else:
+        # SOLO PARA DESARROLLO LOCAL
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'bd_reservas',
+                'USER': 'root',
+                'PASSWORD': '',
+                'HOST': '127.0.0.1',  # ✔ mejor que localhost
+                'PORT': '3306',
+            }
+        }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
