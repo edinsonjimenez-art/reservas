@@ -138,7 +138,11 @@
 
         <div class="card-habitacion">
 
-            <img src="{{ h.imagen.url }}" alt="Habitación {{ h.numero }}">
+            {% if h.imagen %}
+                <img src="{{ h.imagen.url }}" alt="Habitación {{ h.numero }}">
+            {% else %}
+                <img src="https://via.placeholder.com/400x240?text=Sin+imagen" alt="Sin imagen">
+            {% endif %}
 
             <div class="card-body">
 
