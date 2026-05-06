@@ -71,39 +71,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sistema_reservas.wsgi.application'
 
 # =========================
-# BASE DE DATOS
+# BASE DE DATOS RAILWAY
 # =========================
-DB_NAME = os.environ.get('MYSQLDATABASE') or os.environ.get('MYSQL_DATABASE')
-DB_USER = os.environ.get('MYSQLUSER') or os.environ.get('MYSQL_USER')
-DB_PASSWORD = os.environ.get('MYSQLPASSWORD') or os.environ.get('MYSQL_PASSWORD')
-DB_HOST = os.environ.get('MYSQLHOST') or os.environ.get('MYSQL_HOST')
-DB_PORT = os.environ.get('MYSQLPORT') or os.environ.get('MYSQL_PORT')
+DB_NAME = os.environ.get('MYSQLDATABASE')
+DB_USER = os.environ.get('MYSQLUSER')
+DB_PASSWORD = os.environ.get('MYSQLPASSWORD')
+DB_HOST = os.environ.get('MYSQLHOST')
+DB_PORT = os.environ.get('MYSQLPORT')
 
-# PRODUCCIÓN RAILWAY
-if DB_NAME and DB_HOST:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT or '3306',
     }
-
-# LOCAL
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'bd_reservas',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-        }
-    }
+}
 
 # =========================
 # PASSWORDS
