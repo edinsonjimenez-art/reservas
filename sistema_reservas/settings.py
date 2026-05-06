@@ -73,13 +73,13 @@ WSGI_APPLICATION = 'sistema_reservas.wsgi.application'
 # =========================
 # BASE DE DATOS
 # =========================
-DB_NAME = os.environ.get('MYSQLDATABASE')
-DB_USER = os.environ.get('MYSQLUSER')
-DB_PASSWORD = os.environ.get('MYSQLPASSWORD')
-DB_HOST = os.environ.get('MYSQLHOST')
-DB_PORT = os.environ.get('MYSQLPORT')
+DB_NAME = os.environ.get('MYSQLDATABASE') or os.environ.get('MYSQL_DATABASE')
+DB_USER = os.environ.get('MYSQLUSER') or os.environ.get('MYSQL_USER')
+DB_PASSWORD = os.environ.get('MYSQLPASSWORD') or os.environ.get('MYSQL_PASSWORD')
+DB_HOST = os.environ.get('MYSQLHOST') or os.environ.get('MYSQL_HOST')
+DB_PORT = os.environ.get('MYSQLPORT') or os.environ.get('MYSQL_PORT')
 
-# PRODUCCIÓN (RAILWAY)
+# PRODUCCIÓN RAILWAY
 if DB_NAME and DB_HOST:
     DATABASES = {
         'default': {
