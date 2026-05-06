@@ -79,7 +79,7 @@ DB_PASSWORD = os.environ.get('MYSQLPASSWORD')
 DB_HOST = os.environ.get('MYSQLHOST')
 DB_PORT = os.environ.get('MYSQLPORT')
 
-# RAILWAY
+# PRODUCCIÓN (RAILWAY)
 if DB_NAME and DB_HOST:
     DATABASES = {
         'default': {
