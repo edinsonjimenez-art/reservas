@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Reservas</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+        }
+
+        nav{
+            height:70px;
+            background:#050505;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 45px;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            z-index:10;
+        }
+
+        .logo{
+            color:white;
+            font-size:28px;
+            font-weight:900;
+            letter-spacing:2px;
+        }
+
+        .menu{
+            display:flex;
+            gap:35px;
+        }
+
+        .menu a{
+            color:#8ee3e3;
+            text-decoration:none;
+            font-size:13px;
+            font-weight:bold;
+            letter-spacing:1px;
+            text-transform:uppercase;
+        }
+
+        .menu a:hover{
+            color:white;
+        }
+
+        .contenedor{
+            min-height:80vh;
+            padding-top:70px;
+        }
+
+        .contenido-normal{
+            width:90%;
+            margin:auto;
+            padding:40px 0;
+        }
+
+        .btn{
+            display:inline-block;
+            background:#73c7c7;
+            color:white;
+            padding:13px 22px;
+            text-decoration:none;
+            border-radius:4px;
+            border:2px solid white;
+            font-weight:bold;
+            letter-spacing:1px;
+            text-transform:uppercase;
+        }
+
+        .btn:hover{
+            background:#111;
+        }
+
+        .btn-danger{
+            background:#dc2626;
+            border:none;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            margin-top:20px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        th{
+            background:#050505;
+            color:white;
+            padding:14px;
+        }
+
+        td{
+            padding:14px;
+            text-align:center;
+            border-bottom:1px solid #ddd;
+        }
+
+        td img{
+            width:120px;
+            height:80px;
+            object-fit:cover;
+            border-radius:6px;
+        }
+
+        form{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        form p{
+            margin-bottom:15px;
+        }
+
+        form input,
+        form select{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+        }
+
+        h1{
+            color:#111;
+            margin-bottom:20px;
+        }
+
+        footer{
+            background:#050505;
+            color:white;
+            text-align:center;
+            padding:25px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">HOTEL RESERVAS</div>
+
+    <div class="menu">
+        <a href="{% url 'inicio' %}">Hotel</a>
+        <a href="{% url 'lista_habitaciones' %}">Habitaciones</a>
+        <a href="{% url 'lista_reservas' %}">Reservas</a>
+        <a href="/admin/">Admin</a>
+    </div>
+</nav>
+
+<div class="contenedor">
+    {% block contenido %}
+    {% endblock %}
+</div>
+
+<footer>
+    <h3>HOTEL RESERVAS</h3>
+    <p>Sistema desarrollado con Django y MySQL</p>
+</footer>
+
+</body>
+</html>

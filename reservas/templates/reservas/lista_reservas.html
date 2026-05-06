@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<style>
+    .reservas-section{
+        width:90%;
+        margin:40px auto;
+    }
+
+    .reservas-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:30px;
+    }
+
+    .reservas-header h1{
+        font-size:36px;
+        color:#111;
+    }
+
+    .grid-reservas{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+        gap:30px;
+    }
+
+    .card-reserva{
+        background:white;
+        border-radius:22px;
+        overflow:hidden;
+        box-shadow:0 8px 25px rgba(0,0,0,0.12);
+        transition:0.3s;
+    }
+
+    .card-reserva:hover{
+        transform:translateY(-8px);
+        box-shadow:0 14px 35px rgba(0,0,0,0.18);
+    }
+
+    .card-reserva img{
+        width:100%;
+        height:230px;
+        object-fit:cover;
+    }
+
+    .card-body{
+        padding:24px;
+    }
+
+    .card-body h2{
+        font-size:24px;
+        margin-bottom:14px;
+        color:#111;
+    }
+
+    .info{
+        font-size:16px;
+        color:#333;
+        margin-bottom:10px;
+    }
+
+    .estado{
+        display:inline-block;
+        background:#dbeafe;
+        color:#1e40af;
+        padding:8px 14px;
+        border-radius:20px;
+        font-weight:bold;
+        margin-top:10px;
+    }
+
+    .acciones{
+        display:flex;
+        gap:12px;
+        margin-top:20px;
+    }
+
+    .btn-card{
+        flex:1;
+        text-align:center;
+        padding:12px;
+        border-radius:8px;
+        text-decoration:none;
+        font-weight:bold;
+        color:white;
+    }
+
+    .btn-editar{
+        background:#2563eb;
+    }
+
+    .btn-eliminar{
+        background:#dc2626;
+    }
+
+    .btn-editar:hover{
+        background:#1d4ed8;
+    }
+
+    .btn-eliminar:hover{
+        background:#b91c1c;
+    }
+
+    .sin-datos{
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        text-align:center;
+        font-size:18px;
+    }
+</style>
+
+<section class="reservas-section">
+
+    <div class="reservas-header">
+        <h1>Reservas Registradas</h1>
+
+        <a href="{% url 'crear_reserva' %}" class="btn">
+            Nueva Reserva
+        </a>
+    </div>
+
+    <div class="grid-reservas">
+
+        {% for r in reservas %}
+
+        <div class="card-reserva">
+
+            {% if r.imagen %}
+                <img src="{{ r.imagen.url }}" alt="Reserva de {{ r.cliente }}">
+            {% else %}
+                <img src="{{ r.habitacion.imagen.url }}" alt="Habitación reservada">
+            {% endif %}
+
+            <div class="card-body">
+
+                <h2>Reserva de {{ r.cliente }}</h2>
+
+                <p class="info">
+                    <strong>Habitación:</strong> {{ r.habitacion }}
+                </p>
+
+                <p class="info">
+                    <strong>Fecha inicio:</strong> {{ r.fecha_inicio }}
+                </p>
+
+                <p class="info">
+                    <strong>Fecha fin:</strong> {{ r.fecha_fin }}
+                </p>
+
+                <p class="info">
+                    <strong>Precio habitación:</strong> S/. {{ r.habitacion.precio }}
+                </p>
+
+                <span class="estado">
+                    {{ r.estado }}
+                </span>
+
+                <div class="acciones">
+                    <a href="{% url 'editar_reserva' r.id %}" class="btn-card btn-editar">
+                        Editar
+                    </a>
+
+                    <a href="{% url 'eliminar_reserva' r.id %}" class="btn-card btn-eliminar">
+                        Eliminar
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="sin-datos">
+            No hay reservas registradas.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

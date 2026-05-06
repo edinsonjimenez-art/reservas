@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<style>
+    .habitaciones-section{
+        width:90%;
+        margin:40px auto;
+    }
+
+    .habitaciones-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:30px;
+    }
+
+    .habitaciones-header h1{
+        font-size:36px;
+        color:#111;
+        letter-spacing:1px;
+    }
+
+    .grid-habitaciones{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+        gap:30px;
+    }
+
+    .card-habitacion{
+        background:white;
+        border-radius:22px;
+        overflow:hidden;
+        box-shadow:0 8px 25px rgba(0,0,0,0.12);
+        transition:0.3s;
+    }
+
+    .card-habitacion:hover{
+        transform:translateY(-8px);
+        box-shadow:0 14px 35px rgba(0,0,0,0.18);
+    }
+
+    .card-habitacion img{
+        width:100%;
+        height:240px;
+        object-fit:cover;
+        display:block;
+    }
+
+    .card-body{
+        padding:24px;
+    }
+
+    .card-body h2{
+        font-size:25px;
+        color:#111;
+        margin-bottom:12px;
+    }
+
+    .info{
+        margin-bottom:10px;
+        color:#333;
+        font-size:16px;
+    }
+
+    .precio{
+        font-size:24px;
+        font-weight:bold;
+        color:#0f766e;
+        margin:18px 0;
+    }
+
+    .estado{
+        display:inline-block;
+        background:#dcfce7;
+        color:#166534;
+        padding:8px 14px;
+        border-radius:20px;
+        font-weight:bold;
+        font-size:14px;
+        margin-bottom:18px;
+    }
+
+    .acciones{
+        display:flex;
+        gap:12px;
+        margin-top:15px;
+    }
+
+    .btn-card{
+        flex:1;
+        text-align:center;
+        padding:12px;
+        border-radius:8px;
+        text-decoration:none;
+        font-weight:bold;
+        color:white;
+    }
+
+    .btn-editar{
+        background:#2563eb;
+    }
+
+    .btn-eliminar{
+        background:#dc2626;
+    }
+
+    .btn-editar:hover{
+        background:#1d4ed8;
+    }
+
+    .btn-eliminar:hover{
+        background:#b91c1c;
+    }
+
+    .sin-datos{
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        text-align:center;
+        font-size:18px;
+    }
+</style>
+
+<section class="habitaciones-section">
+
+    <div class="habitaciones-header">
+        <h1>Habitaciones Disponibles</h1>
+
+        <a href="{% url 'crear_habitacion' %}" class="btn">
+            Nueva Habitación
+        </a>
+    </div>
+
+    <div class="grid-habitaciones">
+
+        {% for h in habitaciones %}
+
+        <div class="card-habitacion">
+
+            <img src="{{ h.imagen.url }}" alt="Habitación {{ h.numero }}">
+
+            <div class="card-body">
+
+                <h2>Habitación {{ h.numero }}</h2>
+
+                <p class="info">
+                    <strong>Tipo:</strong> {{ h.tipo }}
+                </p>
+
+                <p class="precio">
+                    S/. {{ h.precio }}
+                </p>
+
+                <span class="estado">
+                    {{ h.estado }}
+                </span>
+
+                <div class="acciones">
+                    <a href="{% url 'editar_habitacion' h.id %}" class="btn-card btn-editar">
+                        Editar
+                    </a>
+
+                    <a href="{% url 'eliminar_habitacion' h.id %}" class="btn-card btn-eliminar">
+                        Eliminar
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="sin-datos">
+            No hay habitaciones registradas.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

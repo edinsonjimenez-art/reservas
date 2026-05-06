@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<style>
+    .hero{
+        height:620px;
+        background:
+            linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)),
+            url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80");
+        background-size:cover;
+        background-position:center;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        color:white;
+    }
+
+    .hero-content h1{
+        font-size:42px;
+        font-weight:900;
+        letter-spacing:2px;
+        margin-bottom:25px;
+        color:white;
+    }
+
+    .hero-content h2{
+        font-size:28px;
+        margin-bottom:50px;
+        color:white;
+    }
+
+    .hero-content .btn{
+        padding:18px 35px;
+        background:rgba(115,199,199,0.85);
+        font-size:15px;
+    }
+</style>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>HOTEL RESERVAS</h1>
+
+        <h2>Gestiona habitaciones y reservas de manera rápida y segura</h2>
+
+        <a href="{% url 'crear_reserva' %}" class="btn">
+            Reserva online al mejor precio
+        </a>
+    </div>
+</section>
+
+{% endblock %}
