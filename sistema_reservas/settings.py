@@ -53,12 +53,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_reservas.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='mysql://root:@localhost:3306/bd_reservas',
-        conn_max_age=600
-    )
-}
+DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('MYSQL_URL')
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'bd_reservas',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

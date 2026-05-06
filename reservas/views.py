@@ -2,13 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Habitacion, Reserva
 from .forms import HabitacionForm, ReservaForm
 
-
 def inicio(request):
     return render(request, 'inicio.html')
-
-
-# ---------------- HABITACIONES ----------------
-
+# HABITACIONES
 def lista_habitaciones(request):
     habitaciones = Habitacion.objects.all()
     return render(request, 'habitaciones/lista.html', {
@@ -52,7 +48,7 @@ def eliminar_habitacion(request, id):
     return redirect('lista_habitaciones')
 
 
-# ---------------- RESERVAS ----------------
+#  RESERVAS 
 
 def lista_reservas(request):
     reservas = Reserva.objects.all()
