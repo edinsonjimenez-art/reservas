@@ -1,17 +1,15 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# =========================
-# SEGURIDAD
-# =========================
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-unsafe-key-dev-only'
 )
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -21,9 +19,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# =========================
-# APPS
-# =========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,15 +26,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'reservas',
 ]
 
-# =========================
-# MIDDLEWARE
-# =========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,9 +44,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sistema_reservas.urls'
 
-# =========================
-# TEMPLATES
-# =========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -70,29 +61,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_reservas.wsgi.application'
 
-# =========================
-# BASE DE DATOS RAILWAY
-# =========================
-DB_NAME = os.environ.get('MYSQLDATABASE')
-DB_USER = os.environ.get('MYSQLUSER')
-DB_PASSWORD = os.environ.get('MYSQLPASSWORD')
-DB_HOST = os.environ.get('MYSQLHOST')
-DB_PORT = os.environ.get('MYSQLPORT')
+DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('MYSQL_URL')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT or '3306',
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('MYSQLDATABASE'),
+            'USER': os.environ.get('MYSQLUSER'),
+            'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+            'HOST': os.environ.get('MYSQLHOST'),
+            'PORT': os.environ.get('MYSQLPORT', '3306'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
-# =========================
-# PASSWORDS
-# =========================
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -108,9 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# =========================
-# LOCALIZACIÓN
-# =========================
 LANGUAGE_CODE = 'es-pe'
 
 TIME_ZONE = 'America/Lima'
@@ -119,23 +108,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-# =========================
-# ARCHIVOS ESTÁTICOS
-# =========================
 STATIC_URL = '/static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# =========================
-# MEDIA
-# =========================
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# =========================
-# DEFAULT
-# =========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
